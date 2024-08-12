@@ -1,0 +1,390 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  height: 100vh;
+  width: 100vw;
+  background: #545454;
+
+  .nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    z-index: 10000;
+
+    input[type="button"] {
+      width: 50px;
+      height: 30px;
+    }
+  }
+
+  .content-wrapper {
+    display: flex;
+    justify-content: center;
+
+    width: 100vw;
+    height: 100%;
+  }
+
+  .sweeper-wrapper {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    width: 473px;
+    height: 536px;
+
+    top: calc( 100% - 536px );
+
+    background: #20beba;
+    border-radius: 630px 630px 0 0;
+
+    animation: .5s ease-out wallToSweeper;
+
+    overflow-x: hidden;
+
+    &.opened {
+      position: absolute;
+
+      width: 100%;
+      height: calc( 100vh - 30px );
+
+      animation: .7s ease-in sweeperToWall, 1.5s ease-in changeColor;
+      animation-fill-mode: forwards;
+
+      .grainy-background {
+        position: absolute;
+
+        width: 100%;
+
+        background:
+                linear-gradient(180deg, hsl(0, 0%, 100%), hsla(0, 0%, 20%, .4)),
+                url("assets/svg/grainy-bg.svg");
+        filter: contrast(170%) brightness(100%);
+
+        transition: 1s ease-in-out background;
+        animation: 1s ease-in pageIntro;
+        animation-fill-mode: both;
+      }
+
+      .next-container {
+        position: absolute;
+
+        width: 100%;
+        height: calc( 100vh - 30px );
+
+        animation: 1s ease-in pageIntro;
+        animation-fill-mode: both;
+      }
+
+      &.next-page {
+        position: absolute;
+
+        width: 100%;
+        height: calc( 100vh - 30px );
+
+        top: 30px;
+        border-radius: 0;
+
+        animation: .5s ease-in nextColor;
+        animation-fill-mode: forwards;
+
+        .grainy-background {
+          background: linear-gradient(180deg, hsl(0, 0%, 100%), hsla(0, 0%, 20%, .4)),
+          url("assets/svg/grainy-bg.svg");
+          animation: .5s ease-in-out nextPage;
+          animation-fill-mode: forwards;
+          width: 100%;
+          height: calc( 100vh - 30px );
+        }
+      }
+    }
+
+    .floating-ellipse {
+      width: 400px;
+      height: 800px;
+
+      position: absolute;
+
+      top: 125px;
+      right: -150px;
+
+      display: flex;
+      align-items: center;
+
+      animation: .7s ease-in goToRights;
+
+      &.right {
+        animation: .7s ease-in slideIn, .7s ease-in fadeIn;
+      }
+
+      &.left {
+        transform: translate3d(-570%, 100px, 0);
+
+        animation: .7s ease-in-out goToLeft;
+
+        .rocket-img {
+          animation: .5s ease-out slideOut, .5s ease-out fadeOut;
+          animation-fill-mode: forwards;
+        }
+      }
+
+      .yellow-circle {
+        position: absolute;
+
+        width: 700px;
+        height: 700px;
+
+        background-color: #FFB800;
+        border-radius: 50%;
+
+        z-index: 10;
+      }
+
+      .circle-wrapper {
+        position: absolute;
+
+        transform: scale(.7);
+
+        left: calc(50% - 300px);
+        top: calc(50% - 250px);
+
+        .circle {
+          position: absolute;
+
+          svg {
+            stroke: #946F00;
+          }
+
+          &-one {
+            animation: 13s ease-in-out infinite infinitloop1;
+          }
+
+          &-two {
+            animation: 13s ease-in-out infinite infinitloop2;
+          }
+
+          &-three {
+            animation: 13s ease-in-out infinite infinitloop2;
+          }
+
+          &-four {
+            animation: 13s ease-in-out infinite infinitloop1;
+          }
+        }
+      }
+
+      .rocket-img {
+        width: 300px;
+        height: 300px;
+
+        background: center / contain url("assets/png/rocket.png");
+
+        position: absolute;
+
+        left: -50px;
+
+        z-index: 15;
+
+        animation: 6s ease-in-out infinite bouncingItem;
+      }
+    }
+  }
+}
+
+@keyframes bouncingItem {
+  0% {
+    transform: translate(-5%, -10%);
+  }
+
+  50% {
+    transform: translate(5%, 10%);
+  }
+
+  100% {
+    transform: translate(-5%, -10%);
+  }
+}
+
+
+@keyframes infinitloop1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes infinitloop2 {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes sweeperToWall {
+  0% {
+    border-radius: 630px 630px 0 0;
+    width: 473px;
+    height: 536px;
+  }
+
+  100% {
+    top: 30px;
+    border-radius: 0;
+    width: 100vw;
+    height: calc( 100vh - 30px );
+  }
+}
+
+@keyframes changeColor {
+  0% {
+    background: #20beba;
+  }
+
+  70% {
+    background: #20beba;
+  }
+
+  100% {
+    background:
+            radial-gradient(1020px at left bottom, #5667FF, transparent),
+            radial-gradient(1020px at right bottom, #FE7040, transparent);
+  }
+}
+
+@keyframes nextColor {
+  0% {
+    background:
+            radial-gradient(1020px at left bottom, #5667FF, transparent),
+            radial-gradient(1020px at right bottom, #FE7040, transparent);
+  }
+
+  100% {
+    background: white;
+  }
+}
+
+@keyframes nextPage {
+  0% {
+    background: linear-gradient(180deg, hsl(0, 0%, 100%), hsla(0, 0%, 20%, .4)),
+    url("assets/svg/grainy-bg.svg");
+  }
+
+  100% {
+    background: white;
+  }
+}
+
+@keyframes wallToSweeper {
+  0% {
+    border-radius: 0;
+    width: 100vw;
+    height: calc( 100vh - 30px );
+    top: 0;
+    bottom: 0;
+  }
+
+  100% {
+    border-radius: 630px 630px 0 0;
+    width: 473px;
+    height: 536px;
+    bottom: 0;
+  }
+}
+
+@keyframes pageIntro {
+  0% {
+    border-radius: 630px 630px 0 0;
+    width: 473px;
+    height: 0;
+    bottom: 0;
+  }
+
+  100% {
+    border-radius: 0;
+    width: 100%;
+    height: calc( 100vh - 30px );
+    bottom: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes goToLeft {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-285%, 50px, 0);
+  }
+
+  100% {
+    transform: translate3d(-570%, 100px, 0);
+  }
+}
+
+
+@keyframes goToRight {
+  0% {
+    transform: translate3d(-100vw, 100px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
